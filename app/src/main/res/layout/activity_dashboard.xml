@@ -34,10 +34,10 @@
 
             <TextView
                 android:id="@+id/textView_name_dash"
-                android:layout_width="wrap_content"
+                android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Dikamjit Borah"
+                android:text="Name"
 
                 android:textAlignment="center"
                 android:textSize="24sp"
@@ -45,10 +45,10 @@
 
             <TextView
                 android:id="@+id/textView_phone_dash"
-                android:layout_width="wrap_content"
+                android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="7002936200"
+                android:text="Phone"
 
                 android:textAlignment="center"
                 android:textSize="16sp"
@@ -57,14 +57,14 @@
 
             <TextView
                 android:id="@+id/textView_type_dash"
-                android:layout_width="wrap_content"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="LOCAL"
+                android:text="Type"
 
                 android:textAlignment="center"
                 android:textSize="16sp"
-                android:textColor="#000000"
+                android:textColor="#EEEEEE"
                 />
 
         </LinearLayout>

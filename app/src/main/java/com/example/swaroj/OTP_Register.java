@@ -35,6 +35,7 @@ public class OTP_Register extends AppCompatActivity {
     PhoneAuthProvider.ForceResendingToken Token;
 
     Boolean authenticated = false;
+    Boolean verifying = false;
 
 
 
@@ -63,14 +64,28 @@ public class OTP_Register extends AppCompatActivity {
 
                 if(!input_phone.getText().toString().isEmpty() && input_phone.getText().toString().length()==10)
                 {
-                    progressBar.setVisibility(View.VISIBLE);
-                    phone_str = "+91" + input_phone.getText().toString();
-                    Toast.makeText(getApplicationContext(),"Sending OTP to " + phone_str, Toast.LENGTH_SHORT).show();
-                    requestOTP(phone_str);
+                    if(!verifying) {
+                        get_otp.setEnabled(false);
+                        get_otp.setTextColor(Color.GRAY);
+                        progressBar.setVisibility(View.VISIBLE);
+                        phone_str = "+91" + input_phone.getText().toString();
+                        Toast.makeText(getApplicationContext(), "Sending OTP to " + phone_str, Toast.LENGTH_SHORT).show();
+                        requestOTP(phone_str);
+                    }
+                    else
+                    {
+                        String user_otp_input = input_otp.getText().toString();
+                        if(user_otp_input.isEmpty())
+                        {
+                            input_otp.setError("Enter valid OTP");
+                        }
+                        else
+                        {
+                            PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.getCredential(verificationID, user_otp_input);
+                            verifyOTP(phoneAuthCredential);
+                        }
 
-
-
-
+                    }
                 }
                 else
                 {
@@ -91,9 +106,6 @@ public class OTP_Register extends AppCompatActivity {
                     startActivity(new Intent(getApplicationContext(), Registration_migrant.class));
                     finish();
                 }
-
-
-
             }
         });
 
@@ -118,8 +130,6 @@ public class OTP_Register extends AppCompatActivity {
                 if(task.isSuccessful())
                 {
                     authenticated = true;
-                    make_elements_visible();
-                    input_otp.setText("******");
                     Toast.makeText(getApplicationContext(),"Authentication successful", Toast.LENGTH_SHORT).show();
                 }
                 else
@@ -130,14 +140,14 @@ public class OTP_Register extends AppCompatActivity {
         });
     }
 
-    private void make_elements_visible() {
+/*    private void make_elements_visible() {
         progressBar.setVisibility(View.INVISIBLE);
         input_otp.setVisibility(View.VISIBLE);
         reg_migrant.setVisibility(View.VISIBLE);
         reg_local.setVisibility(View.VISIBLE);
         get_otp.setEnabled(false);
         get_otp.setTextColor(Color.DKGRAY);
-    }
+    }*/
 
     private void requestOTP(String phone_str)
     {
@@ -146,7 +156,12 @@ public class OTP_Register extends AppCompatActivity {
             @Override
             public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                 super.onCodeSent(s, forceResendingToken);
-                make_elements_visible();
+                verifying = true;
+                progressBar.setVisibility(View.INVISIBLE);
+                input_otp.setVisibility(View.VISIBLE);
+                reg_migrant.setVisibility(View.VISIBLE);
+                reg_local.setVisibility(View.VISIBLE);
+
             }
 
             @Override

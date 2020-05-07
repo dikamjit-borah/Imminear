@@ -27,6 +27,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -37,12 +39,16 @@ public class Registration_migrant extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firestore;
+    FirebaseDatabase firebaseDatabase;
 
     EditText name, email, address, lastloc;
     Button submit;
 
     String name_string, email_string, address_string, lastloc_string;
     String USER_ID;
+
+    double lat, lon, alt;
+
 
 
     private static final int PERMISSION_ID = 44;
@@ -58,6 +64,7 @@ public class Registration_migrant extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(Registration_migrant.this);
        // getLastLocation();
@@ -79,6 +86,7 @@ public class Registration_migrant extends AppCompatActivity {
         USER_ID = firebaseAuth.getCurrentUser().getUid();
 
         final DocumentReference documentReference = firestore.collection("USERS").document(USER_ID);
+        final DocumentReference documentReference2 = firestore.collection("MIGRANTS").document(USER_ID);
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,25 +102,49 @@ public class Registration_migrant extends AppCompatActivity {
                 }
                 else
                 {
+//                    DatabaseReference ref = firebaseDatabase.getReference("Coordinates\n"+ USER_ID);
+//                    coordinates coordinates = new coordinates(lat,lon,alt);
+//                    ref.setValue(name);
+
                     Map<String, Object> migrants = new HashMap<>();
                     migrants.put("NAME_", name_string);
                     migrants.put("EMAIL_", email_string);
                     migrants.put("ADDRESS_", address_string);
                     migrants.put("LAST_LOCATION_", lastloc_string);
                     migrants.put("TYPE_", "MIGRANT");
+
+                    Map<String, Object> migrants_coordinates = new HashMap<>();
+                    migrants_coordinates.put("latitude", lat);
+                    migrants_coordinates.put("longitude", lon);
+                    documentReference2.set(migrants_coordinates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful())
+                            {
+
+                                Toast.makeText(getApplicationContext(), "Account created", Toast.LENGTH_SHORT).show();
+                                // startActivity(new Intent(getApplicationContext(), Dashboard.class));
+                                //finish();
+                            }
+                            else
+                            {
+                                Toast.makeText(getApplicationContext(), "Account could not be created", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                     documentReference.set(migrants).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful())
                             {
 
-                                Toast.makeText(getApplicationContext(), "Account created", Toast.LENGTH_SHORT);
-                               // startActivity(new Intent(getApplicationContext(), Dashboard.class));
-                                //finish();
+                                //Toast.makeText(getApplicationContext(), "Account created", Toast.LENGTH_SHORT).show();
+                               startActivity(new Intent(getApplicationContext(), Dashboard.class));
+                                finish();
                             }
                             else
                             {
-                                Toast.makeText(getApplicationContext(), "Account could not be created", Toast.LENGTH_SHORT);
+                                Toast.makeText(getApplicationContext(), "Account could not be created", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -133,6 +165,8 @@ public class Registration_migrant extends AppCompatActivity {
                                 if (location == null) {
                                     requestNewLocationData();
                                 } else {
+                                    lat = location.getLatitude();
+                                    lon = location.getLongitude();
                                     address.setText(location.getLatitude()+", "+location.getLongitude()+"");
                                 }
                             }
@@ -170,6 +204,8 @@ public class Registration_migrant extends AppCompatActivity {
         @Override
         public void onLocationResult(LocationResult locationResult) {
             Location mLastLocation = locationResult.getLastLocation();
+            lat = mLastLocation.getLatitude();
+            lon = mLastLocation.getLongitude();
             address.setText(mLastLocation.getLatitude()+", "+mLastLocation.getLongitude()+"");
         }
     };

@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "190657660313",
-    "firebase_url": "https://swaroj-98ba4.firebaseio.com",
-    "project_id": "swaroj-98ba4",
-    "storage_bucket": "swaroj-98ba4.appspot.com"
+    "project_number": "1052759426753",
+    "firebase_url": "https://swaroj-7d516.firebaseio.com",
+    "project_id": "swaroj-7d516",
+    "storage_bucket": "swaroj-7d516.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:190657660313:android:54ab7af4a33711407dbf08",
+        "mobilesdk_app_id": "1:1052759426753:android:55587da7fee7c60de5f640",
         "android_client_info": {
           "package_name": "com.example.swaroj"
         }
       },
       "oauth_client": [
         {
-          "client_id": "190657660313-joiiphrt5sq55g0j9elc3tdevk256ig6.apps.googleusercontent.com",
+          "client_id": "1052759426753-i4kvegt0m16hmo12d4b29s6r6u5o94pu.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.swaroj",
@@ -23,20 +23,20 @@
           }
         },
         {
-          "client_id": "190657660313-ffdepp3aon13nbdu86i5qr5uacd7cnif.apps.googleusercontent.com",
+          "client_id": "1052759426753-4pj2rbplifci5k34qocg44fgmi4oo14h.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCh8wlzWoE9WbAviScMH9BT6NTxrr5KjWk"
+          "current_key": "AIzaSyBAt4GmXxobwq4CQcSZAIrNQ-qY8SmLpno"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "190657660313-ffdepp3aon13nbdu86i5qr5uacd7cnif.apps.googleusercontent.com",
+              "client_id": "1052759426753-4pj2rbplifci5k34qocg44fgmi4oo14h.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
