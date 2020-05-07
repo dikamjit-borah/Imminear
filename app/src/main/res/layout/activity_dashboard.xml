@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Dashboard"
+    >
+
+    <LinearLayout
+        android:id="@+id/ll1_details_dash"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/colorPrimary">
+
+        <ImageView
+            android:layout_margin="8dp"
+            android:background="@drawable/custom_round_bg"
+            android:id="@+id/imageView"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_person_pin_black_24dp" />
+
+        <LinearLayout
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:id="@+id/ll1_ll1_dash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView_name_dash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Dikamjit Borah"
+
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:textColor="#ffffff"/>
+
+            <TextView
+                android:id="@+id/textView_phone_dash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="7002936200"
+
+                android:textAlignment="center"
+                android:textSize="16sp"
+                android:textColor="#ffffff"
+                />
+
+            <TextView
+                android:id="@+id/textView_type_dash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="LOCAL"
+
+                android:textAlignment="center"
+                android:textSize="16sp"
+                android:textColor="#000000"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/container_dash"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true">
+
+
+        <LinearLayout
+            android:layout_margin="8dp"
+
+            android:id="@+id/ll2_set1_dash"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+
+                android:drawableTop="@drawable/ic_near_me_black_24dp"
+                android:drawableTint="#ffffff"
+                android:padding="12dp"
+                android:text="Near me"
+                android:textColor="#ffffff"
+                android:layout_margin="4dp"
+                android:id="@+id/imageButton1"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_button_1" />
+
+            <Button
+                android:drawableTop="@drawable/ic_edit_location_black_24dp"
+                android:drawableTint="#ffffff"
+                android:padding="12dp"
+                android:text="Update location"
+                android:textColor="#ffffff"
+
+                android:layout_margin="4dp"
+                android:id="@+id/imageButton2"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_button_1" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_margin="8dp"
+            android:layout_below="@id/ll2_set1_dash"
+            android:id="@+id/ll3_set2_dash"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:drawableTop="@drawable/ic_settings_black_24dp"
+                android:drawableTint="#ffffff"
+                android:padding="12dp"
+                android:text="Settings"
+                android:textColor="#ffffff"
+
+
+                android:layout_margin="4dp"
+                android:id="@+id/imageButton3"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_button_1" />
+
+            <Button
+                android:drawableTop="@drawable/ic_business_center_black_24dp"
+                android:drawableTint="#ffffff"
+                android:padding="12dp"
+                android:text="About us"
+                android:textColor="#ffffff"
+
+
+                android:layout_margin="4dp"
+                android:id="@+id/imageButton4"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_button_1" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</RelativeLayout>

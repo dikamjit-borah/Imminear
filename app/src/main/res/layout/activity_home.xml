@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Home">
+
+
+    <LinearLayout
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="24dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/swaroj_logo" />
+
+        <Button
+            android:id="@+id/button_login_home"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/custom_button_1"
+            android:elevation="12dp"
+
+            android:fontFamily="sans-serif-black"
+            android:text="@string/log_in"
+            android:textColor="#ffffff"
+            android:textSize="22sp"
+            />
+
+        <Button
+            android:id="@+id/button_reg__home"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/custom_button_1_outline"
+            android:elevation="12dp"
+
+            android:fontFamily="sans-serif-black"
+            android:text="@string/register"
+            android:textColor="#f44336"
+            android:textSize="22sp" />
+
+        <!--<Button
+            android:id="@+id/button_reg_local_home"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/custom_button_1_outline"
+            android:elevation="12dp"
+
+            android:fontFamily="sans-serif-black"
+            android:text="@string/register_local"
+            android:textColor="#f44336"
+            android:textSize="22sp" /> -->
+    </LinearLayout>
+</RelativeLayout>
