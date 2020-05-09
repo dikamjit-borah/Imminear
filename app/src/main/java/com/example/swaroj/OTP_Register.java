@@ -106,6 +106,18 @@ public class OTP_Register extends AppCompatActivity {
                     startActivity(new Intent(getApplicationContext(), Registration_migrant.class));
                     finish();
                 }
+
+                if(input_otp.getText().toString().isEmpty() || input_otp.getText().toString().length()!=6)
+                {
+                    input_otp.setError("OTP is invalid or empty");
+                    return;
+                }
+                else
+                {
+                    String user_input_otp = input_otp.getText().toString();
+                    PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.getCredential(verificationID,user_input_otp);
+                    verifyOTP(phoneAuthCredential);
+                }
             }
         });
 
@@ -117,6 +129,18 @@ public class OTP_Register extends AppCompatActivity {
                 {
                     startActivity(new Intent(getApplicationContext(), Registration.class));
                     finish();
+                }
+
+                if(input_otp.getText().toString().isEmpty() || input_otp.getText().toString().length()!=6)
+                {
+                    input_otp.setError("OTP is invalid or empty");
+                    return;
+                }
+                else
+                {
+                    String user_input_otp = input_otp.getText().toString();
+                    PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.getCredential(verificationID,user_input_otp);
+                    verifyOTP(phoneAuthCredential);
                 }
             }
         });
@@ -130,6 +154,11 @@ public class OTP_Register extends AppCompatActivity {
                 if(task.isSuccessful())
                 {
                     authenticated = true;
+                    progressBar.setVisibility(View.INVISIBLE);
+                    input_otp.setVisibility(View.VISIBLE);
+                    reg_migrant.setVisibility(View.VISIBLE);
+                    reg_local.setVisibility(View.VISIBLE);
+
                     Toast.makeText(getApplicationContext(),"Authentication successful", Toast.LENGTH_SHORT).show();
                 }
                 else

@@ -7,6 +7,16 @@
     tools:context=".Dashboard"
     >
 
+    <TextView
+        android:id="@+id/textView_coordinate_dash"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/container_dash"
+        android:text="coordinates"
+        android:textAlignment="center"
+        android:textSize="28sp"
+        android:textColor="@color/colorPrimary"/>
+
     <LinearLayout
         android:id="@+id/ll1_details_dash"
         android:layout_width="match_parent"
@@ -40,7 +50,7 @@
                 android:text="Name"
 
                 android:textAlignment="center"
-                android:textSize="24sp"
+                android:textSize="18sp"
                 android:textColor="#ffffff"/>
 
             <TextView
@@ -51,7 +61,7 @@
                 android:text="Phone"
 
                 android:textAlignment="center"
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:textColor="#ffffff"
                 />
 
@@ -63,7 +73,7 @@
                 android:text="Type"
 
                 android:textAlignment="center"
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:textColor="#EEEEEE"
                 />
 
