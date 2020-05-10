@@ -19,6 +19,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.concurrent.TimeUnit;
 
@@ -29,6 +30,7 @@ public class OTP_Register extends AppCompatActivity {
     ProgressBar progressBar;
 
     FirebaseAuth firebaseAuth;
+    FirebaseFirestore firebaseFirestore;
     String phone_str;
 
     String verificationID;
@@ -46,6 +48,8 @@ public class OTP_Register extends AppCompatActivity {
 
 
         firebaseAuth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
 
         progressBar = findViewById(R.id.progressBar_otp_reg);
         get_otp = findViewById(R.id.button_getOTP_otp_reg);

@@ -82,7 +82,11 @@ public class Dashboard extends AppCompatActivity {
         near_me.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), Near_Me.class));
+                Intent intent = new Intent(getApplicationContext(),Near_Me.class);
+                intent.putExtra("dash_lat", lat);
+                intent.putExtra("dash_lon", lon);
+                startActivity(intent);
+               // startActivity(new Intent(getApplicationContext(), Near_Me.class));
             }
         });
 
