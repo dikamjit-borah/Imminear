@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -37,6 +38,7 @@ public class Near_Me extends AppCompatActivity {
     Button refresh;
 
     double sin_lat, sin_lon;
+    int migrant_count = 0;
     ArrayList<Double> latitudes = new ArrayList<>();
     ArrayList<Double> longitudes = new ArrayList<>();
 
@@ -49,7 +51,7 @@ public class Near_Me extends AppCompatActivity {
     double a = 0;
     double c = 0;
     double dist = 0;
-    ArrayList<Double> migrants_near = new ArrayList<>();
+    ArrayList<Integer> migrants_near = new ArrayList<>();
     String USER_ID;
 
     String test;
@@ -67,8 +69,20 @@ public class Near_Me extends AppCompatActivity {
         Intent intent = getIntent();
         user_latitude = intent.getDoubleExtra("dash_lat", 0);
         user_longitude = intent.getDoubleExtra("dash_lon", 0);
+        migrant_count = intent.getIntExtra("dash_count", 0);
+
         USER_ID = firebaseAuth.getCurrentUser().getUid();
 
+        //Toast.makeText(getApplicationContext(), "" + migrant_count, Toast.LENGTH_SHORT).show();
+
+        if(migrant_count == 0)
+
+            count.setText("No migrant people near me. I am the only one...");
+        else {
+            count.setText(migrant_count + " people near me");
+            //coor_nearme.setText("at approximately" + migrants_near + "metres ");
+        }
+        count.setTextColor(Color.RED);
         final DocumentReference documentReference = firestore.collection("USERS").document(USER_ID);
         final DocumentReference documentReference2 = firestore.collection("MIGRANTS").document(USER_ID);
 
@@ -78,7 +92,7 @@ public class Near_Me extends AppCompatActivity {
                if(documentSnapshot.exists())
                {
                    user_type = (documentSnapshot.getString("TYPE_"));
-                   Toast.makeText(getApplicationContext(), "" + user_type, Toast.LENGTH_SHORT).show();
+                   //Toast.makeText(getApplicationContext(), "" + user_type, Toast.LENGTH_SHORT).show();
                }
            }
        });
@@ -211,7 +225,7 @@ public class Near_Me extends AppCompatActivity {
 
             } else if (dist < 500) {
                 if(dist!=0)
-                    migrants_near.add(dist);
+                    migrants_near.add((int)dist);
 
             }
 
@@ -219,9 +233,14 @@ public class Near_Me extends AppCompatActivity {
 
             if(migrants_near.size() == 0)
 
-                count.setText("No migrant people near me. I am the only one...");
+                count.setText("No migrant people near me.");
             else {
-                count.setText(migrants_near.size() + " people near me");
+                //final MediaPlayer mp = MediaPlayer.create(this, R.raw.soho);
+                count.setText(migrants_near.size() + " migrant people near me");
+                String mig_ne = "";
+//                for(i = 0; i<migrants_near.size(); i++)
+//                    mig_ne.concat(String.valueOf(migrants_near.get(i)));
+
                 coor_nearme.setText("at approximately" + migrants_near + "metres ");
             }
             count.setTextColor(Color.RED);

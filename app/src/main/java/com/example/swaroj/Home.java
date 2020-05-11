@@ -83,14 +83,56 @@ public class Home extends AppCompatActivity {
         if(ifFirstRun)
         {
             String terms =
-                    "Aenean vitae elementum odio. Cras eleifend lacus id nulla elementum, non aliquet neque condimentum. Integer sagittis maximus sapien, pretium vehicula lectus convallis et. Donec magna enim, condimentum sit amet cursus euismod, rhoncus ut elit. Nulla dolor nisl, hendrerit sed dapibus non, placerat sodales metus. Maecenas feugiat purus augue, pretium cursus sapien ultricies id. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aliquam at porttitor purus. Donec id lorem eget odio gravida rhoncus.\n" +
-                    "\n" +
-                    "Donec tempor lacus eleifend, laoreet ipsum sed, semper tellus. Etiam efficitur risus metus, elementum aliquam ligula tincidunt a. In id condimentum metus. Vestibulum pharetra, dolor congue rhoncus ultricies, tellus turpis ultricies enim, sit amet dapibus ipsum purus in quam. Donec suscipit nisl et eros maximus, sed faucibus enim convallis. Etiam convallis velit id velit facilisis, ut hendrerit urna tincidunt. Nam porta sapien vel eleifend pellentesque. Nunc euismod eleifend dapibus. Donec mauris mauris, varius at eleifend nec, hendrerit ut libero.\n" +
-                    "\n" +
-                    "Suspendisse luctus sit amet lectus eget rhoncus. Donec in lorem non dolor blandit accumsan non ultricies neque. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nulla tincidunt, dolor nec vestibulum maximus, lorem ante vulputate nunc, viverra scelerisque est odio id neque. Quisque lectus quam, luctus sit amet bibendum vel, facilisis vel orci. Vivamus porta nulla vitae mi posuere, scelerisque dignissim leo efficitur. Morbi aliquam tincidunt est sit amet faucibus. Donec vitae tortor sed ipsum rhoncus feugiat. Maecenas dictum ut nulla at tempor. Cras vitae iaculis lorem.";
+                            "SWAROJ takes the responsibility of having your personal information very seriously. It uses " +
+                            "your personal information for only improving the Service. It keeps your personal " +
+                            "information as its own and keeps it confidential. By using the Service, you consent to the " +
+                            "collection and use of information in accordance with this Policy. " +
+                            " \n\n " +
+                            "SWAROJ reserves the right, at its sole discretion, to modify or replace this Policy by posting " +
+                            "the updated version on the Site. It is your responsibility to check this Policy periodically for " +
+                            "changes. Your continued use of the Service following the posting of any changes to this " +
+                            "Policy constitutes your acceptance of those changes. " +
+                            " \n\n " +
+                            "Acquiring of Information " +
+                            "We may acquire the following information about you. " +
+                            "Information (such as your name, telephone number) that you provide while booking on the " +
+                            "application. " +
+                            "Your log-in which is done using your mobile no which is in connection with the account " +
+                            "sign-in process; " +
+                            "Details of any requests or transactions made by you through the Service; " +
+                            "Communications you send to us, for example to report a problem or to submit queries, " +
+                            "concerns, or comments regarding the Service or its content; " +
+                            "Information that you post to the application in the form of comments or contributions to " +
+                            "discussions and IP addresses " +
+                            " \n\n " +
+                            "Uses of Your Personal Information " +
+                            "We will use the personal information that you provide for: " +
+                            "Identifying you when you book our service; " +
+                            "Enable us to provide you with the services; " +
+                            "Send you information we think you may find useful or which you have requested from us " +
+                            " " +
+                            "E-Mail &amp; Mobile No " +
+                            "We try to keep emails/sms to a minimum and give you the freedom to opt out when we can. " +
+                            "We will send you email/sms relating to your personal transactions. We will keep these " +
+                            "emails/sms to a minimum. You will also receive certain email/sms notifications, for which " +
+                            "you may opt-out. We may send you service-related announcements on rare occasions when " +
+                            "it is necessary to do so. " +
+                            " \n\n " +
+                            "Third Party Services " +
+                            "We never post anything to your accounts with Facebook, Twitter or any other third-party " +
+                            "sites without your permission. Except for the purposes of providing the Services, we will not " +
+                            "give your name or personal information to third parties. " +
+                            " \n\n " +
+                            "GPS Services:- " +
+                            "We will taking access of the location of the users of both people who came from outside as " +
+                            "well as of local people so that we will be getting a track within a range of 500 meters which " +
+                            "will further give alert to local users. Moreover the exact location of people coming from " +
+                            "outside will not be shared to local people keeping in touch with the security issues. Only " +
+                            "alerts will be given to local people users. Moreover the name and other details of Migrant " +
+                            "people will not be shared with any local user.";
 
             AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
-            builder.setTitle("TERMS OF SERVICES");
+            builder.setTitle("PRIVACY POLICY");
             builder.setMessage(terms);
             builder.setPositiveButton("AGREE", new DialogInterface.OnClickListener() {
                 @Override

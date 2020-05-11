@@ -38,6 +38,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,13 +49,27 @@ public class Dashboard extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firestore;
-    String USER_ID;
+    String USER_ID, user_type;
     TextView name, phone, type;
     TextView coordinates_textview;
     int count = 0;
     double lat, lon;
 
     Button near_me;
+    double sin_lat, sin_lon;
+    ArrayList<Double> latitudes = new ArrayList<>();
+    ArrayList<Double> longitudes = new ArrayList<>();
+
+    double user_latitude = 0;
+    double user_longitude = 0;
+    double latitude_distance = 0;
+    double longitude_distance = 0;
+    final int radius = 6371;
+
+    double a = 0;
+    double c = 0;
+    double dist = 0;
+    ArrayList<Double> migrants_near = new ArrayList<>();
 
 
     private static final int PERMISSION_ID = 44;
@@ -77,14 +93,21 @@ public class Dashboard extends AppCompatActivity {
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(Dashboard.this);
         getLastLocation();
-
+        
         near_me = findViewById(R.id.imageButton1);
         near_me.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                getLastLocation();
+               // coordinates_textview.setText("\n My Location \n" );
+
+
                 Intent intent = new Intent(getApplicationContext(),Near_Me.class);
                 intent.putExtra("dash_lat", lat);
                 intent.putExtra("dash_lon", lon);
+               // intent.putExtra("dash_migrants_near", migrants_near);
+                intent.putExtra("dash_count", migrants_near.size());
                 startActivity(intent);
                // startActivity(new Intent(getApplicationContext(), Near_Me.class));
             }
@@ -92,6 +115,9 @@ public class Dashboard extends AppCompatActivity {
 
         USER_ID = firebaseAuth.getCurrentUser().getUid();
         final DocumentReference documentReference = firestore.collection("USERS").document(USER_ID);
+        final DocumentReference documentReference2 = firestore.collection("MIGRANTS").document(USER_ID);
+
+
         documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -100,6 +126,7 @@ public class Dashboard extends AppCompatActivity {
                     name.setText(documentSnapshot.getString("NAME_"));
                     phone.setText(documentSnapshot.getString("EMAIL_"));
                     type.setText(documentSnapshot.getString("TYPE_"));
+                    user_type = (documentSnapshot.getString("TYPE_"));
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "Profile data not found", Toast.LENGTH_SHORT);
@@ -169,6 +196,69 @@ public class Dashboard extends AppCompatActivity {
         });
         builder.setTitle("Which of the following is/are true?");
         builder.create().show();
+    }
+
+    private void is_near_me() {
+
+        firestore.collection("MIGRANTS").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful())
+                {
+                    migrants_near.clear();
+                    latitudes.clear();
+                    longitudes.clear();
+                    for(QueryDocumentSnapshot document:task.getResult())
+                    {
+                        sin_lat = (double) document.get("latitude");
+                        sin_lon = (double) document.get("longitude");
+                        if(sin_lon==user_latitude && sin_lon==user_longitude)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            latitudes.add(sin_lat);
+                            longitudes.add(sin_lon);
+                        }
+                    }
+
+                    is_near_me();
+                }
+
+
+            }
+        });
+        int i;
+        for (i = 0; i<latitudes.size(); i++)
+        {
+            //System.out.println("For" + latitudes.get(i) + ", " + longitudes.get(i) + "\n");
+            latitude_distance = (Math.toRadians(user_latitude - latitudes.get(i)));
+            System.out.println(latitude_distance);
+            longitude_distance = Math.toRadians(user_longitude - longitudes.get(i));
+            System.out.println(longitude_distance);
+
+            a = Math.abs(Math.pow(Math.sin(latitude_distance / 2), 2)
+                    + Math.cos(user_latitude) * Math.cos(latitudes.get(i))
+                    * Math.pow(Math.sin(longitude_distance / 2),2));
+            System.out.println("a = " + a + "\n");
+
+            c = 2 * Math.asin(Math.sqrt(a));
+            System.out.println("c = " + c + "\n");
+            //height = e2 - e1;
+            dist = c * radius;
+            dist = dist* 1000;//converts to meters
+
+            System.out.println("dist = "+ dist + "\n");
+            if (dist > 500) {
+                //do nothing
+
+            } else if (dist < 500) {
+                if(dist!=0)
+                    migrants_near.add(dist);
+
+            }
+        }
     }
 
     @Override
