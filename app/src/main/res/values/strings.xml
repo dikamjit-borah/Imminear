@@ -15,4 +15,9 @@
     <string name="get_otp">Get OTP</string>
     <string name="enter_otp">Enter OTP</string>
     <string name="enter_last_location">Enter last location</string>
+    <string name="title_activity_dashboard_map">Map</string>
+    <string name="swaroj_2020_all_rights_reserved">©Swaroj 2020. All rights reserved.</string>
+    <string name="something_s_not_right_restart_app">Something\'s not right. Restart app.</string>
+    <string name="click_near_me_to_refresh">Click near me to refresh.</string>
+    <string name="refresh">refresh</string>
 </resources>

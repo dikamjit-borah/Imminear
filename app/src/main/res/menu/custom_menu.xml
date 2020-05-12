@@ -2,9 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/acc_del_menu"
+        android:title="Request account deletion" />
+    <item
+        android:id="@+id/call_menu"
+        android:title="Call Support" />
+    <item
         android:id="@+id/privacy_menu"
         android:title="Privacy Policy" />
-    <item android:title="Log out"
+    <item
         android:id="@+id/logout_menu"
-        />
+        android:title="Log out" />
 </menu>

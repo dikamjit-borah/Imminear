@@ -15,7 +15,9 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
@@ -51,6 +53,7 @@ import java.util.Map;
 
 public class Dashboard extends AppCompatActivity {
 
+    private static final int REQUEST_LOCATION_PERMISSION = 1;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firestore;
     String USER_ID, user_type;
@@ -58,6 +61,9 @@ public class Dashboard extends AppCompatActivity {
     TextView coordinates_textview, safeornot_textview;
     int count = 0;
     double lat, lon;
+
+    LocationManager locationManager;
+    LocationListener locationListener;
 
     Button near_me, update_location;
     double sin_lat, sin_lon;
@@ -77,7 +83,7 @@ public class Dashboard extends AppCompatActivity {
 
 
     private static final int PERMISSION_ID = 44;
-    FusedLocationProviderClient mFusedLocationClient;
+    //FusedLocationProviderClient mFusedLocationClient;
 
 
     @Override
@@ -96,8 +102,8 @@ public class Dashboard extends AppCompatActivity {
         coordinates_textview = findViewById(R.id.textView_coordinate_dash);
         safeornot_textview = findViewById(R.id.textView_safeornot_dash);
 
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(Dashboard.this);
-        getLastLocation();
+        //mFusedLocationClient = LocationServices.getFusedLocationProviderClient(Dashboard.this);
+        //getLastLocation();
 
         onFirstRun();
 
@@ -119,12 +125,9 @@ public class Dashboard extends AppCompatActivity {
             }
         });
 
-
-
         USER_ID = firebaseAuth.getCurrentUser().getUid();
         final DocumentReference documentReference = firestore.collection("USERS").document(USER_ID);
         final DocumentReference documentReference2 = firestore.collection("MIGRANTS").document(USER_ID);
-
 
         documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -144,12 +147,82 @@ public class Dashboard extends AppCompatActivity {
             }
         });
 
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]
+                            {Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_LOCATION_PERMISSION);
+        }
+        else{
+            locationListener = new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    lat = location.getLatitude();
+                    lon = location.getLongitude();
+                    user_latitude = lat;
+                    user_longitude = lon;
+                    coordinates_textview.setText("My Location \n" + lat + ", " + lon);
+                    try {
+                        if(user_type.equals("MIGRANT"))
+                        {
+                            Map<String, Object> migrants_coordinates = new HashMap<>();
+                            migrants_coordinates.put("latitude", user_latitude);
+                            migrants_coordinates.put("longitude", user_longitude);
+                            documentReference2.set(migrants_coordinates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful())
+                                    {
+
+                                        Toast.makeText(getApplicationContext(), "Location updated", Toast.LENGTH_SHORT).show();
+                                        // startActivity(new Intent(getApplicationContext(), Dashboard.class));
+                                        //finish();
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(getApplicationContext(), "Something's wrong ", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Toast.makeText(getApplicationContext(), "Something's wrong "+ e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+
+                }
+            };
+
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
+        }
+
+
         update_location = findViewById(R.id.imageButton2);
         update_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                getLastLocation();
+                //getLastLocation();
                 try {
                 if(user_type.equals("MIGRANT"))
                 {
@@ -162,7 +235,7 @@ public class Dashboard extends AppCompatActivity {
                             if(task.isSuccessful())
                             {
 
-                                Toast.makeText(getApplicationContext(), "Location updated", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Location updated and inserted into database", Toast.LENGTH_SHORT).show();
                                 // startActivity(new Intent(getApplicationContext(), Dashboard.class));
                                 //finish();
                             }
@@ -232,7 +305,7 @@ public class Dashboard extends AppCompatActivity {
                     builder2.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            //add to vulnerable list
+                            //add to migrant list
                         }
                     });
                     builder2.create().show();
@@ -390,108 +463,21 @@ public class Dashboard extends AppCompatActivity {
 
             builder.show();
         }
+        else if(item.getItemId() == R.id.call_menu)
+        {
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:7002936200"));
+            startActivity(intent);
+        }
+        else if(item.getItemId() == R.id.acc_del_menu)
+        {
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:7002936200"));
+            startActivity(intent);
+        }
+
+
         return super.onOptionsItemSelected(item);
-    }
-
-
-    @SuppressLint("MissingPermission")
-    private void getLastLocation(){
-        if (checkPermissions()) {
-            if (isLocationEnabled()) {
-                mFusedLocationClient.getLastLocation().addOnCompleteListener(
-                        new OnCompleteListener<Location>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Location> task) {
-                                Location location = task.getResult();
-                                if (location == null) {
-                                    requestNewLocationData();
-                                } else {
-                                    lat = location.getLatitude();
-                                    lon = location.getLongitude();
-                                    coordinates_textview.setText("\n My Location \n" + location.getLatitude()+", "+location.getLongitude()+"");
-
-                                }
-                            }
-                        }
-                );
-            } else {
-                Toast.makeText(this, "Turn on location", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                startActivity(intent);
-            }
-        } else {
-            requestPermissions();
-        }
-    }
-
-
-    @SuppressLint("MissingPermission")
-    private void requestNewLocationData(){
-
-        LocationRequest mLocationRequest = new LocationRequest();
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        mLocationRequest.setInterval(0);
-        mLocationRequest.setFastestInterval(0);
-        mLocationRequest.setNumUpdates(1);
-
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        mFusedLocationClient.requestLocationUpdates(
-                mLocationRequest, mLocationCallback,
-                Looper.myLooper()
-        );
-
-    }
-
-    private LocationCallback mLocationCallback = new LocationCallback() {
-        @Override
-        public void onLocationResult(LocationResult locationResult) {
-            Location mLastLocation = locationResult.getLastLocation();
-            lat = mLastLocation.getLatitude();
-            lon = mLastLocation.getLongitude();
-            coordinates_textview.setText(mLastLocation.getLatitude()+", "+mLastLocation.getLongitude()+"");
-        }
-    };
-
-    private boolean checkPermissions() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        }
-        return false;
-    }
-
-    private void requestPermissions() {
-        ActivityCompat.requestPermissions(
-                this,
-                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
-                PERMISSION_ID
-        );
-    }
-
-    private boolean isLocationEnabled() {
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-                LocationManager.NETWORK_PROVIDER
-        );
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PERMISSION_ID) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                getLastLocation();
-            }
-        }
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        if (checkPermissions()) {
-            getLastLocation();
-        }
-
     }
 
     public void onFirstRun(){
@@ -513,22 +499,26 @@ public class Dashboard extends AppCompatActivity {
             int myIntValue = sp.getInt("my_int_key", -1);
 
             if(myIntValue == 0) {
-                safeornot_textview.setText("No vulnerable people currently nearby.\n Click near me to refresh.");
+                safeornot_textview.setText("No migrant people currently nearby.\n Click near me to refresh.");
                 safeornot_textview.setTextColor(Color.GREEN);
             }
             else if(myIntValue > 0 && myIntValue<4)
             {
-                safeornot_textview.setText("Some vulnerable people currently nearby.\n Click near me to refresh.");
+                safeornot_textview.setText("Some migrant people currently nearby.\n Click near me to refresh.");
                 safeornot_textview.setTextColor(Color.MAGENTA);
             }
             else
             {
-                safeornot_textview.setText("Many vulnerable people currently nearby.\n Click near me to refresh.");
+                safeornot_textview.setText("Many migrant people currently nearby.\n Click near me to refresh.");
                 safeornot_textview.setTextColor(Color.RED);
             }
         }
 
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        onFirstRun();
+    }
 }

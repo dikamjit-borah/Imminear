@@ -4,109 +4,102 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Dashboard"
+    tools:context=".Dashboard_map"
     >
 
-<LinearLayout
-    android:id="@+id/ll0_info_dash"
-    android:layout_above="@id/container_dash"
-    android:layout_margin="8dp"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-    <TextView
-        android:id="@+id/textView_coordinate_dash"
+    <LinearLayout
+        android:id="@+id/ll0_info_dash_map"
+        android:layout_above="@id/container_dash_map"
+        android:layout_margin="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/container_dash"
-        android:text="@string/something_s_not_right_restart_app"
-        android:textAlignment="center"
-        android:textSize="16sp"
-        android:textColor="@color/colorPrimary"/>
-    <TextView
-        android:id="@+id/textView_safeornot_dash"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/container_dash"
-        android:text="@string/click_near_me_to_refresh"
-        android:textAlignment="center"
-        android:textSize="14sp"
-        android:textColor="#228B22"/>
-</LinearLayout>
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/textView_coordinate_dash_map"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/container_dash_map"
+            android:text="coordinates"
+            android:textAlignment="center"
+            android:textSize="22sp"
+            android:textColor="@color/colorPrimary"/>
+        <TextView
+            android:id="@+id/textView_safeornot_dash_map"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/container_dash_map"
+            android:text="Click near me to refresh."
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textColor="#228B22"/>
+    </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll1_details_dash"
+        android:id="@+id/ll1_details_dash_map"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="#e53935">
+        android:background="@color/colorPrimary">
 
-        <!--<ImageView
+        <ImageView
             android:layout_margin="8dp"
             android:background="@drawable/custom_round_bg"
             android:id="@+id/imageView"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_person_pin_black_24dp" />-->
+            app:srcCompat="@drawable/ic_person_pin_black_24dp" />
 
         <LinearLayout
             android:layout_gravity="center"
             android:gravity="center"
-            android:id="@+id/ll1_ll1_dash"
+            android:id="@+id/ll1_ll1_dash_map"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView_name_dash"
+                android:id="@+id/textView_name_dash_map"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="sans-serif-medium"
-                android:letterSpacing="0.1"
                 android:text="Name"
 
                 android:textAlignment="center"
-                android:textAllCaps="true"
-                android:textColor="#ffffff"
-                android:textSize="20sp" />
+                android:textSize="18sp"
+                android:textColor="#ffffff"/>
 
             <TextView
-                android:id="@+id/textView_phone_dash"
-                android:layout_width="wrap_content"
+                android:id="@+id/textView_phone_dash_map"
+                android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="sans-serif-medium"
-                android:letterSpacing="0.1"
-                android:text="Email"
+                android:text="Phone"
 
                 android:textAlignment="center"
-                android:textAllCaps="true"
+                android:textSize="12sp"
                 android:textColor="#ffffff"
-                android:textSize="14sp" />
+                />
 
             <TextView
-                android:id="@+id/textView_type_dash"
+                android:id="@+id/textView_type_dash_map"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="sans-serif-medium"
-                android:letterSpacing="0.1"
                 android:text="Type"
 
                 android:textAlignment="center"
-                android:textAllCaps="true"
+                android:textSize="12sp"
                 android:textColor="#EEEEEE"
-                android:textSize="14sp" />
+                />
 
         </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/container_dash"
+        android:id="@+id/container_dash_map"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -116,7 +109,7 @@
         <LinearLayout
             android:layout_margin="8dp"
 
-            android:id="@+id/ll2_set1_dash"
+            android:id="@+id/ll2_set1_dash_map"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -154,8 +147,8 @@
 
         <LinearLayout
             android:layout_margin="8dp"
-            android:layout_below="@id/ll2_set1_dash"
-            android:id="@+id/ll3_set2_dash"
+            android:layout_below="@id/ll2_set1_dash_map"
+            android:id="@+id/ll3_set2_dash_map"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">

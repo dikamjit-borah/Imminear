@@ -12,5 +12,14 @@
         android:layout_height="match_parent"
         android:layout_margin="12dp"
         android:elevation="8dp"
-        app:srcCompat="@drawable/baruah" />
+        app:srcCompat="@drawable/swaroj_logo" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/swaroj_2020_all_rights_reserved"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        >
+
+    </TextView>
 </RelativeLayout>

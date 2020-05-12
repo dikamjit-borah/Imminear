@@ -9,8 +9,10 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
+import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,10 +61,12 @@ public class Near_Me extends AppCompatActivity {
     String test;
     String user_type;
    ArrayList<String> coor = new ArrayList<>();
+    MediaPlayer mediaPlayer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_near__me);
+        mediaPlayer= MediaPlayer.create(this, R.raw.alarm);
 
         count = findViewById(R.id.textView_count_near);
         coor_nearme = findViewById(R.id.textView_coordinate_near);
@@ -125,6 +129,7 @@ public class Near_Me extends AppCompatActivity {
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Toast.makeText(getApplicationContext(), "Updating", Toast.LENGTH_SHORT).show();
 
 
@@ -201,7 +206,7 @@ public class Near_Me extends AppCompatActivity {
                 //do nothing
 
             } else if (dist < 500) {
-                if(dist!=0)
+                if(dist>10)    // dist!=0 loi thoisilu
                     migrants_near.add((int)dist);
 
             }
@@ -212,6 +217,7 @@ public class Near_Me extends AppCompatActivity {
             count.setText("No migrant people near me.");
         else {
             //final MediaPlayer mp = MediaPlayer.create(this, R.raw.soho);
+            mediaPlayer.start();
             count.setText(migrants_near.size() + " migrant people near me");
 
                 count.setTextColor(Color.RED);
@@ -220,7 +226,7 @@ public class Near_Me extends AppCompatActivity {
 //                for(i = 0; i<migrants_near.size(); i++)
 //                    mig_ne.concat(String.valueOf(migrants_near.get(i)));
 
-            coor_nearme.setText("at approximately" + migrants_near + "metres ");
+            coor_nearme.setText("at approximately " + migrants_near + " metres ");
 
             //getSharedPreferences("PREFERENCE_dash", MODE_PRIVATE).edit().putBoolean("ifFirstRun_dash", false).apply();
 
