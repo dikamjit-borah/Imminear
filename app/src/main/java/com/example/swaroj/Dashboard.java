@@ -7,9 +7,11 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -43,7 +45,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Dashboard extends AppCompatActivity {
 
@@ -51,11 +55,11 @@ public class Dashboard extends AppCompatActivity {
     FirebaseFirestore firestore;
     String USER_ID, user_type;
     TextView name, phone, type;
-    TextView coordinates_textview;
+    TextView coordinates_textview, safeornot_textview;
     int count = 0;
     double lat, lon;
 
-    Button near_me;
+    Button near_me, update_location;
     double sin_lat, sin_lon;
     ArrayList<Double> latitudes = new ArrayList<>();
     ArrayList<Double> longitudes = new ArrayList<>();
@@ -90,19 +94,21 @@ public class Dashboard extends AppCompatActivity {
         phone = findViewById(R.id.textView_phone_dash);
         type = findViewById(R.id.textView_type_dash);
         coordinates_textview = findViewById(R.id.textView_coordinate_dash);
+        safeornot_textview = findViewById(R.id.textView_safeornot_dash);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(Dashboard.this);
         getLastLocation();
-        
+
+        onFirstRun();
+
         near_me = findViewById(R.id.imageButton1);
         near_me.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                getLastLocation();
                // coordinates_textview.setText("\n My Location \n" );
 
-
+                onFirstRun();
                 Intent intent = new Intent(getApplicationContext(),Near_Me.class);
                 intent.putExtra("dash_lat", lat);
                 intent.putExtra("dash_lon", lon);
@@ -112,6 +118,8 @@ public class Dashboard extends AppCompatActivity {
                // startActivity(new Intent(getApplicationContext(), Near_Me.class));
             }
         });
+
+
 
         USER_ID = firebaseAuth.getCurrentUser().getUid();
         final DocumentReference documentReference = firestore.collection("USERS").document(USER_ID);
@@ -135,6 +143,46 @@ public class Dashboard extends AppCompatActivity {
                 }
             }
         });
+
+        update_location = findViewById(R.id.imageButton2);
+        update_location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                getLastLocation();
+                try {
+                if(user_type.equals("MIGRANT"))
+                {
+                    Map<String, Object> migrants_coordinates = new HashMap<>();
+                    migrants_coordinates.put("latitude", user_latitude);
+                    migrants_coordinates.put("longitude", user_longitude);
+                    documentReference2.set(migrants_coordinates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful())
+                            {
+
+                                Toast.makeText(getApplicationContext(), "Location updated", Toast.LENGTH_SHORT).show();
+                                // startActivity(new Intent(getApplicationContext(), Dashboard.class));
+                                //finish();
+                            }
+                            else
+                            {
+                                Toast.makeText(getApplicationContext(), "Something's wrong", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+                }
+                }
+                catch (Exception e)
+                {
+                    Toast.makeText(getApplicationContext(), "Try again! " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                Toast.makeText(getApplicationContext(), "Location updated", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         isVulnerable();
     }
 
@@ -278,6 +326,70 @@ public class Dashboard extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Successfully signed out", Toast.LENGTH_SHORT).show();
             return true;
         }
+        else if(item.getItemId() == R.id.privacy_menu)
+        {
+            String terms =
+                    "SWAROJ takes the responsibility of having your personal information very seriously. It uses " +
+                            "your personal information for only improving the Service. It keeps your personal " +
+                            "information as its own and keeps it confidential. By using the Service, you consent to the " +
+                            "collection and use of information in accordance with this Policy. " +
+                            " \n\n " +
+                            "SWAROJ reserves the right, at its sole discretion, to modify or replace this Policy by posting " +
+                            "the updated version on the Site. It is your responsibility to check this Policy periodically for " +
+                            "changes. Your continued use of the Service following the posting of any changes to this " +
+                            "Policy constitutes your acceptance of those changes. " +
+                            " \n\n " +
+                            "Acquiring of Information " +
+                            "We may acquire the following information about you. " +
+                            "Information (such as your name, telephone number) that you provide while booking on the " +
+                            "application. " +
+                            "Your log-in which is done using your mobile no which is in connection with the account " +
+                            "sign-in process; " +
+                            "Details of any requests or transactions made by you through the Service; " +
+                            "Communications you send to us, for example to report a problem or to submit queries, " +
+                            "concerns, or comments regarding the Service or its content; " +
+                            "Information that you post to the application in the form of comments or contributions to " +
+                            "discussions and IP addresses " +
+                            " \n\n " +
+                            "Uses of Your Personal Information " +
+                            "We will use the personal information that you provide for: " +
+                            "Identifying you when you book our service; " +
+                            "Enable us to provide you with the services; " +
+                            "Send you information we think you may find useful or which you have requested from us " +
+                            " " +
+                            "E-Mail &amp; Mobile No " +
+                            "We try to keep emails/sms to a minimum and give you the freedom to opt out when we can. " +
+                            "We will send you email/sms relating to your personal transactions. We will keep these " +
+                            "emails/sms to a minimum. You will also receive certain email/sms notifications, for which " +
+                            "you may opt-out. We may send you service-related announcements on rare occasions when " +
+                            "it is necessary to do so. " +
+                            " \n\n " +
+                            "Third Party Services " +
+                            "We never post anything to your accounts with Facebook, Twitter or any other third-party " +
+                            "sites without your permission. Except for the purposes of providing the Services, we will not " +
+                            "give your name or personal information to third parties. " +
+                            " \n\n " +
+                            "GPS Services:- " +
+                            "We will taking access of the location of the users of both people who came from outside as " +
+                            "well as of local people so that we will be getting a track within a range of 500 meters which " +
+                            "will further give alert to local users. Moreover the exact location of people coming from " +
+                            "outside will not be shared to local people keeping in touch with the security issues. Only " +
+                            "alerts will be given to local people users. Moreover the name and other details of Migrant " +
+                            "people will not be shared with any local user.";
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(Dashboard.this);
+            builder.setTitle("PRIVACY POLICY");
+            builder.setMessage(terms);
+            builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+
+                }
+            });
+
+            builder.show();
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -378,6 +490,42 @@ public class Dashboard extends AppCompatActivity {
         super.onResume();
         if (checkPermissions()) {
             getLastLocation();
+        }
+
+    }
+
+    public void onFirstRun(){
+
+        boolean ifFirstRun = getSharedPreferences("PREFERENCE_dash", MODE_PRIVATE).getBoolean("ifFirstRun_dash", true);
+
+        if(ifFirstRun)
+        {
+            SharedPreferences sp = getSharedPreferences("count_dash", Activity.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putInt("my_int_key", 0);
+            editor.apply();
+            getSharedPreferences("PREFERENCE_dash", MODE_PRIVATE).edit().putBoolean("ifFirstRun_dash", false).apply();
+
+        }
+        else
+        {
+            SharedPreferences sp = getSharedPreferences("count_dash", Activity.MODE_PRIVATE);
+            int myIntValue = sp.getInt("my_int_key", -1);
+
+            if(myIntValue == 0) {
+                safeornot_textview.setText("No vulnerable people currently nearby.\n Click near me to refresh.");
+                safeornot_textview.setTextColor(Color.GREEN);
+            }
+            else if(myIntValue > 0 && myIntValue<4)
+            {
+                safeornot_textview.setText("Some vulnerable people currently nearby.\n Click near me to refresh.");
+                safeornot_textview.setTextColor(Color.MAGENTA);
+            }
+            else
+            {
+                safeornot_textview.setText("Many vulnerable people currently nearby.\n Click near me to refresh.");
+                safeornot_textview.setTextColor(Color.RED);
+            }
         }
 
     }

@@ -3,7 +3,9 @@ package com.example.swaroj;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -61,6 +63,7 @@ public class Near_Me extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_near__me);
+
         count = findViewById(R.id.textView_count_near);
         coor_nearme = findViewById(R.id.textView_coordinate_near);
         firebaseAuth = FirebaseAuth.getInstance();
@@ -75,14 +78,7 @@ public class Near_Me extends AppCompatActivity {
 
         //Toast.makeText(getApplicationContext(), "" + migrant_count, Toast.LENGTH_SHORT).show();
 
-        if(migrant_count == 0)
 
-            count.setText("No migrant people near me. I am the only one...");
-        else {
-            count.setText(migrant_count + " people near me");
-            //coor_nearme.setText("at approximately" + migrants_near + "metres ");
-        }
-        count.setTextColor(Color.RED);
         final DocumentReference documentReference = firestore.collection("USERS").document(USER_ID);
         final DocumentReference documentReference2 = firestore.collection("MIGRANTS").document(USER_ID);
 
@@ -118,7 +114,10 @@ public class Near_Me extends AppCompatActivity {
 
             }
         });
-        count.setText(coor.size() + " people near me");
+
+        SharedPreferences sp = getSharedPreferences("count_dash", Activity.MODE_PRIVATE);
+        int myIntValue = sp.getInt("my_int_key", -1);
+        count.setText(myIntValue + " people near me. Refresh now!");
         coor_nearme.setText("" + coor);
         count.setTextColor(Color.RED);
 
@@ -127,29 +126,7 @@ public class Near_Me extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Updating", Toast.LENGTH_SHORT).show();
-                if(user_type.equals("MIGRANT"))
-                {
-                    Map<String, Object> migrants_coordinates = new HashMap<>();
-                    migrants_coordinates.put("latitude", user_latitude);
-                    migrants_coordinates.put("longitude", user_longitude);
-                    documentReference2.set(migrants_coordinates).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful())
-                            {
 
-                                Toast.makeText(getApplicationContext(), "Location updated", Toast.LENGTH_SHORT).show();
-                                // startActivity(new Intent(getApplicationContext(), Dashboard.class));
-                                //finish();
-                            }
-                            else
-                            {
-                                Toast.makeText(getApplicationContext(), "Something's wrong", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-
-                }
 
                 //Toast.makeText(getApplicationContext(), user_latitude+", " + user_longitude, Toast.LENGTH_SHORT).show();
                 firestore.collection("MIGRANTS").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -228,22 +205,31 @@ public class Near_Me extends AppCompatActivity {
                     migrants_near.add((int)dist);
 
             }
+            //count.setTextColor(Color.RED);
+        }
+        migrant_count = migrants_near.size();
+        if(migrants_near.size() == 0)
+            count.setText("No migrant people near me.");
+        else {
+            //final MediaPlayer mp = MediaPlayer.create(this, R.raw.soho);
+            count.setText(migrants_near.size() + " migrant people near me");
 
+                count.setTextColor(Color.RED);
 
-
-            if(migrants_near.size() == 0)
-
-                count.setText("No migrant people near me.");
-            else {
-                //final MediaPlayer mp = MediaPlayer.create(this, R.raw.soho);
-                count.setText(migrants_near.size() + " migrant people near me");
-                String mig_ne = "";
+            String mig_ne = "";
 //                for(i = 0; i<migrants_near.size(); i++)
 //                    mig_ne.concat(String.valueOf(migrants_near.get(i)));
 
-                coor_nearme.setText("at approximately" + migrants_near + "metres ");
-            }
-            count.setTextColor(Color.RED);
+            coor_nearme.setText("at approximately" + migrants_near + "metres ");
+
+            //getSharedPreferences("PREFERENCE_dash", MODE_PRIVATE).edit().putBoolean("ifFirstRun_dash", false).apply();
+
         }
+
+        SharedPreferences sp = getSharedPreferences("count_dash", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt("my_int_key", migrants_near.size());
+        editor.apply();
+
     }
 }

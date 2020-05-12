@@ -7,6 +7,13 @@
     tools:context=".Dashboard"
     >
 
+<LinearLayout
+    android:id="@+id/ll0_info_dash"
+    android:layout_above="@id/container_dash"
+    android:layout_margin="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
     <TextView
         android:id="@+id/textView_coordinate_dash"
         android:layout_width="match_parent"
@@ -14,8 +21,18 @@
         android:layout_above="@id/container_dash"
         android:text="coordinates"
         android:textAlignment="center"
-        android:textSize="28sp"
+        android:textSize="22sp"
         android:textColor="@color/colorPrimary"/>
+    <TextView
+        android:id="@+id/textView_safeornot_dash"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/container_dash"
+        android:text="Click near me to refresh."
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textColor="#228B22"/>
+</LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll1_details_dash"
