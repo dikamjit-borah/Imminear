@@ -8,7 +8,7 @@ import android.os.Handler;
 import android.view.WindowManager;
 
 public class MainActivity extends AppCompatActivity {
-    private static int SPLASH_TIME = 1000;   //2 seconds
+    private static int SPLASH_TIME = 1500;   //2 seconds
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

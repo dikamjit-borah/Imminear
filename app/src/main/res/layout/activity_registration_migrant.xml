@@ -77,7 +77,7 @@
 
 
 
-        <EditText
+        <Spinner
             android:id="@+id/editText_lastLoc_reg_mig"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -87,7 +87,7 @@
 
             android:ems="10"
             android:fontFamily="sans-serif-condensed"
-            android:hint="@string/enter_last_location"
+            android:text="@string/enter_last_location"
             android:inputType="textPostalAddress"
 
 

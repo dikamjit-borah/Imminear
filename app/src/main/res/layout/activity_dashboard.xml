@@ -9,11 +9,20 @@
 
 <LinearLayout
     android:id="@+id/ll0_info_dash"
-    android:layout_above="@id/container_dash"
+    android:layout_below="@id/ll1_details_dash"
     android:layout_margin="8dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/imageView_dash"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        app:srcCompat="@drawable/ic_refresh_black_24dp"
+        />
+
     <TextView
         android:id="@+id/textView_coordinate_dash"
         android:layout_width="match_parent"
@@ -110,7 +119,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_centerInParent="true">
+        android:layout_below="@id/ll0_info_dash">
 
 
         <LinearLayout
@@ -193,6 +202,18 @@
         </LinearLayout>
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="A social distancing platform"
+        android:layout_alignParentBottom="true"
+
+        android:layout_centerInParent="true"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:layout_marginBottom="68dp"
+        />
 
 
 </RelativeLayout>

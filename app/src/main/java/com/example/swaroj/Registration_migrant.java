@@ -15,8 +15,11 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -32,7 +35,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Registration_migrant extends AppCompatActivity {
@@ -41,13 +47,15 @@ public class Registration_migrant extends AppCompatActivity {
     FirebaseFirestore firestore;
     FirebaseDatabase firebaseDatabase;
 
-    EditText name, email, address, lastloc;
+    EditText name, email, address;
+    Spinner lastloc;
     Button submit;
 
     String name_string, email_string, address_string, lastloc_string;
     String USER_ID;
 
     double lat, lon, alt;
+
 
 
 
@@ -73,7 +81,93 @@ public class Registration_migrant extends AppCompatActivity {
         email = findViewById(R.id.editText_email_reg_mig);
         address = findViewById(R.id.editText_address_reg_mig);
         lastloc = findViewById(R.id.editText_lastLoc_reg_mig);
+
+        ArrayList<String> categories = new ArrayList<String>(
+                Arrays.asList("SELECT LAST LOCATION",
+                                "Andhra Pradesh",
+                        "Arunachal Pradesh",
+                        "Assam",
+                        "Bihar",
+                        "Chhattisgarh",
+                        "Goa",
+                        "Gujarat",
+                        "Haryana",
+                        "Himachal Pradesh",
+                        "Jammu and Kashmir",
+                        "Jharkhand",
+                        "Karnataka",
+                        "Kerala",
+                        "Madhya Pradesh",
+                        "Maharashtra",
+                        "Manipur",
+                        "Meghalaya",
+                        "Mizoram",
+                        "Nagaland",
+                        "Odisha",
+                        "Punjab",
+                        "Rajasthan",
+                        "Sikkim",
+                        "Tamil Nadu",
+                        "Telangana",
+                        "Tripura",
+                        "Uttarakhand",
+                        "Uttar Pradesh",
+                        "West Bengal",
+                        "Andaman and Nicobar Islands",
+                        "Chandigarh",
+                        "Dadra and Nagar Haveli",
+                        "Daman and Diu",
+                        "Delhi",
+                        "Lakshadweep",
+                        "Puducherry"));
+
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
+
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        lastloc.setPrompt("Enter last location");
+        lastloc.setAdapter(dataAdapter);
+        lastloc.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // On selecting a spinner item
+                if(position!=0) {
+                    lastloc_string = parent.getItemAtPosition(position).toString();
+
+                    // Showing selected spinner item
+                    Toast.makeText(parent.getContext(), lastloc_string, Toast.LENGTH_LONG).show();
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        /*lastloc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // On selecting a spinner item
+                String item = parent.getItemAtPosition(position).toString();
+
+                // Showing selected spinner item
+                Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+            }
+        });*/
+
+
+
         submit = findViewById(R.id.button_submit_reg_mig);
+
+
+
+
+
         address.setFocusable(false);
         address.setClickable(true);
         address.setOnClickListener(new View.OnClickListener() {
@@ -94,8 +188,8 @@ public class Registration_migrant extends AppCompatActivity {
                 name_string = name.getText().toString();
                 email_string = email.getText().toString();
                 address_string = address.getText().toString();
-                lastloc_string = lastloc.getText().toString();
-                if(name_string.isEmpty() || email_string.isEmpty() || address_string.isEmpty() || lastloc_string.isEmpty())
+                //lastloc_string = lastloc.getText().toString();
+                if(name_string.isEmpty() || email_string.isEmpty() || address_string.isEmpty() || lastloc_string.equals("SELECT LAST LOCATION"))
                 {
                     Toast.makeText(getApplicationContext(), "Provide complete details", Toast.LENGTH_LONG).show();
                     return;
@@ -251,6 +345,8 @@ public class Registration_migrant extends AppCompatActivity {
         }
 
     }
+
+
 
 
 

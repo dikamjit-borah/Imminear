@@ -20,14 +20,16 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
-import android.provider.Settings;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -59,13 +61,15 @@ public class Dashboard extends AppCompatActivity {
     String USER_ID, user_type;
     TextView name, phone, type;
     TextView coordinates_textview, safeornot_textview;
+    ImageView imageView;
     int count = 0;
     double lat, lon;
+    Toolbar toolbar;
 
     LocationManager locationManager;
     LocationListener locationListener;
 
-    Button near_me, update_location;
+    Button near_me, update_location, about, settings;
     double sin_lat, sin_lon;
     ArrayList<Double> latitudes = new ArrayList<>();
     ArrayList<Double> longitudes = new ArrayList<>();
@@ -101,18 +105,47 @@ public class Dashboard extends AppCompatActivity {
         type = findViewById(R.id.textView_type_dash);
         coordinates_textview = findViewById(R.id.textView_coordinate_dash);
         safeornot_textview = findViewById(R.id.textView_safeornot_dash);
+        imageView = findViewById(R.id.imageView_dash);
 
         //mFusedLocationClient = LocationServices.getFusedLocationProviderClient(Dashboard.this);
         //getLastLocation();
 
         onFirstRun();
 
+        settings = findViewById(R.id.imageButton3);
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), Settings.class));
+            }
+        });
+
+        about = findViewById(R.id.imageButton4);
+        about.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //String about = "";
+                AlertDialog.Builder builder = new AlertDialog.Builder(Dashboard.this);
+                builder.setTitle("ABOUT US");
+                builder.setMessage(about_us);
+               /* builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+
+                    }
+                });*/
+
+                builder.show();
+            }
+        });
+
         near_me = findViewById(R.id.imageButton1);
         near_me.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-               // coordinates_textview.setText("\n My Location \n" );
+               // coordinates_textview.setText("\n MY LOCATION \n" );
 
                 onFirstRun();
                 Intent intent = new Intent(getApplicationContext(),Near_Me.class);
@@ -163,7 +196,7 @@ public class Dashboard extends AppCompatActivity {
                     lon = location.getLongitude();
                     user_latitude = lat;
                     user_longitude = lon;
-                    coordinates_textview.setText("My Location \n" + lat + ", " + lon);
+                    coordinates_textview.setText("MY LOCATION \n" + lat + ", " + lon);
                     try {
                         if(user_type.equals("MIGRANT"))
                         {
@@ -401,58 +434,9 @@ public class Dashboard extends AppCompatActivity {
         }
         else if(item.getItemId() == R.id.privacy_menu)
         {
-            String terms =
-                    "SWAROJ takes the responsibility of having your personal information very seriously. It uses " +
-                            "your personal information for only improving the Service. It keeps your personal " +
-                            "information as its own and keeps it confidential. By using the Service, you consent to the " +
-                            "collection and use of information in accordance with this Policy. " +
-                            " \n\n " +
-                            "SWAROJ reserves the right, at its sole discretion, to modify or replace this Policy by posting " +
-                            "the updated version on the Site. It is your responsibility to check this Policy periodically for " +
-                            "changes. Your continued use of the Service following the posting of any changes to this " +
-                            "Policy constitutes your acceptance of those changes. " +
-                            " \n\n " +
-                            "Acquiring of Information " +
-                            "We may acquire the following information about you. " +
-                            "Information (such as your name, telephone number) that you provide while booking on the " +
-                            "application. " +
-                            "Your log-in which is done using your mobile no which is in connection with the account " +
-                            "sign-in process; " +
-                            "Details of any requests or transactions made by you through the Service; " +
-                            "Communications you send to us, for example to report a problem or to submit queries, " +
-                            "concerns, or comments regarding the Service or its content; " +
-                            "Information that you post to the application in the form of comments or contributions to " +
-                            "discussions and IP addresses " +
-                            " \n\n " +
-                            "Uses of Your Personal Information " +
-                            "We will use the personal information that you provide for: " +
-                            "Identifying you when you book our service; " +
-                            "Enable us to provide you with the services; " +
-                            "Send you information we think you may find useful or which you have requested from us " +
-                            " " +
-                            "E-Mail &amp; Mobile No " +
-                            "We try to keep emails/sms to a minimum and give you the freedom to opt out when we can. " +
-                            "We will send you email/sms relating to your personal transactions. We will keep these " +
-                            "emails/sms to a minimum. You will also receive certain email/sms notifications, for which " +
-                            "you may opt-out. We may send you service-related announcements on rare occasions when " +
-                            "it is necessary to do so. " +
-                            " \n\n " +
-                            "Third Party Services " +
-                            "We never post anything to your accounts with Facebook, Twitter or any other third-party " +
-                            "sites without your permission. Except for the purposes of providing the Services, we will not " +
-                            "give your name or personal information to third parties. " +
-                            " \n\n " +
-                            "GPS Services:- " +
-                            "We will taking access of the location of the users of both people who came from outside as " +
-                            "well as of local people so that we will be getting a track within a range of 500 meters which " +
-                            "will further give alert to local users. Moreover the exact location of people coming from " +
-                            "outside will not be shared to local people keeping in touch with the security issues. Only " +
-                            "alerts will be given to local people users. Moreover the name and other details of Migrant " +
-                            "people will not be shared with any local user.";
-
             AlertDialog.Builder builder = new AlertDialog.Builder(Dashboard.this);
             builder.setTitle("PRIVACY POLICY");
-            builder.setMessage(terms);
+            builder.setMessage( Html.fromHtml(getString(R.string.pp1) +"<br>" + "<b>"+ getString(R.string.aqquire)+ "<br>" +"</b>" + getString(R.string.pp2)+ "<br>" +"<b>" + getString(R.string.personal)+"</b>" + "<br>" + getString(R.string.pp3)));
             builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -499,18 +483,21 @@ public class Dashboard extends AppCompatActivity {
             int myIntValue = sp.getInt("my_int_key", -1);
 
             if(myIntValue == 0) {
-                safeornot_textview.setText("No migrant people currently nearby.\n Click near me to refresh.");
+                safeornot_textview.setText(R.string.no_migrants);
                 safeornot_textview.setTextColor(Color.GREEN);
+                imageView.setImageResource(R.drawable.safe);
             }
             else if(myIntValue > 0 && myIntValue<4)
             {
-                safeornot_textview.setText("Some migrant people currently nearby.\n Click near me to refresh.");
+                safeornot_textview.setText(R.string.some_migrants );
                 safeornot_textview.setTextColor(Color.MAGENTA);
+                imageView.setImageResource(R.drawable.moderate);
             }
             else
             {
-                safeornot_textview.setText("Many migrant people currently nearby.\n Click near me to refresh.");
+                safeornot_textview.setText(R.string.many_migrants);
                 safeornot_textview.setTextColor(Color.RED);
+                imageView.setImageResource(R.drawable.danger);
             }
         }
 
@@ -521,4 +508,8 @@ public class Dashboard extends AppCompatActivity {
         super.onResume();
         onFirstRun();
     }
+
+    String about_us = "Since now Assam and the whole country is in a lockdown phase and a time will come when the lockdown phase will slowly be withdrawn part by part. So People from different states will be migrating to different states for their job and for their lifecycle which has to be continued. So in this case there might be people who might be coming from various states which has a high risk of COVID-19 and where the cases of COVID-19 are more. So there might be a case that people travelling from high Cases of COVID-19 Zones might be a carrier. So Vision Magitech , an IIITG Start-up which makes products for society using magic in Technology has developed this android application Swaroj which will prevent the spread of COVID-19 to an extent as this application can help users to maintain social distancing from various people who came from high prone areas of Covid-19 who might be a carrier carrying no symptoms. \n" +
+            "\n" +
+            "In Swaroj, the people coming from outside and who will stay in quarantine will register in the application when they reach airport/Station or any other place where they arrive. On the other side the local user can sign in through the local section. When they go out in the app they can see the location of the people coming from outside and also migrants can see other migrants at a radius of 500 metres and so Social Distancing can be maintained and further the spread of COVID-19 can be prevented.";
 }

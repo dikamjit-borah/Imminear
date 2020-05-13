@@ -18,6 +18,44 @@
     <string name="title_activity_dashboard_map">Map</string>
     <string name="swaroj_2020_all_rights_reserved">©Swaroj 2020. All rights reserved.</string>
     <string name="something_s_not_right_restart_app">Something\'s not right. Restart app.</string>
-    <string name="click_near_me_to_refresh">Click near me to refresh.</string>
+    <string name="click_near_me_to_refresh">Click <b><i>NEAR ME</i></b> to refresh.</string>
     <string name="refresh">refresh</string>
+    <string name="a_social_distancing_platform">A social distancing platform</string>
+    <string name="no_migrants">No migrant people currently nearby.\n Click <b><i>NEAR ME</i></b> to refresh.</string>
+    <string name="some_migrants">Some migrant people currently nearby.\n Click <b><i>NEAR ME</i></b> to refresh.</string>
+    <string name="many_migrants">Many migrant people currently nearby.\n Click <b><i>NEAR ME</i></b> to refresh.</string>
+    <string name="pp1">
+        SWAROJ takes the responsibility of having your personal information very seriously. It uses
+your personal information only for only improving the Service. It keeps your personal
+information as its own and keeps it confidential. By using the Service, you consent to the
+collection and use of information in accordance with this Policy. \n
+
+SWAROJ reserves the right, at its sole discretion, to modify or replace this Policy by posting
+the updated version on the Site. It is your responsibility to check this Policy periodically for
+changes. Your continued use of the Service following the posting of any changes to this
+Policy constitutes your acceptance of those changes.\n
+
+</string>
+<string name="aqquire">ACQUIRING OF INFORMATION\n</string>
+
+    <string name="pp2">
+We may acquire the following information about you.
+Information (such as your name, telephone number) that you provide while booking on the
+application.
+Your log-in which is done using your mobile no which is in connection with the account
+sign-in process;
+Details of any requests or transactions made by you through the Service;
+Communications you send to us, for example to report a problem or to submit queries,
+concerns, or comments regarding the Service or its content;
+Information that you post to the application in the form of comments or contributions to
+discussions and IP addresses \n
+    </string>
+    <string name="personal">USE OF PERSONAL INFORMATION\n</string>
+    <string name="pp3">
+
+We will use the personal information that you provide for:
+Identifying you when you book our service;
+Enable us to provide you with the services;
+Send you information we think you may find useful or which you have requested from us
+    </string>
 </resources>

@@ -7,9 +7,10 @@
     tools:context=".Memory">
 
     <ImageView
+        android:id="@+id/logo_memory"
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="256dp"
         android:layout_margin="12dp"
         android:elevation="8dp"
         app:srcCompat="@drawable/swaroj_logo" />
@@ -19,7 +20,21 @@
         android:text="@string/swaroj_2020_all_rights_reserved"
         android:layout_centerInParent="true"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="12dp"
+        android:textColor="#000000"
         >
 
+    </TextView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logo_memory"
+        android:text="@string/a_social_distancing_platform"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="12dp"
+        android:textColor="#000000"
+        android:textSize="20dp"
+        >
     </TextView>
 </RelativeLayout>
