@@ -23,7 +23,7 @@
             android:drawableLeft="@drawable/left_icon_phone"
 
             android:ems="10"
-            android:fontFamily="sans-serif-condensed"
+
             android:hint="@string/prephoneno"
             android:inputType="text|phone"
 
@@ -42,7 +42,7 @@
 
 
             android:ems="10"
-            android:fontFamily="sans-serif-condensed"
+
             android:hint="@string/enter_otp"
             android:inputType="text|phone"
 
@@ -61,7 +61,7 @@
             android:background="@drawable/custom_button_1_outline"
             android:elevation="12dp"
 
-            android:fontFamily="sans-serif-black"
+
             android:text="@string/get_otp"
             android:textColor="#f44336"
             android:textSize="22sp" />
@@ -75,7 +75,7 @@
             android:background="@drawable/custom_button_1"
             android:elevation="12dp"
 
-            android:fontFamily="sans-serif-black"
+
             android:text="@string/log_in"
             android:textColor="#ffffff"
             android:textSize="22sp" />

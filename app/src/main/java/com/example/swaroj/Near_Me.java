@@ -226,7 +226,7 @@ public class Near_Me extends AppCompatActivity {
 //                for(i = 0; i<migrants_near.size(); i++)
 //                    mig_ne.concat(String.valueOf(migrants_near.get(i)));
 
-            coor_nearme.setText("at approximately " + migrants_near + " metres ");
+            coor_nearme.setText(R.string.rangeof);
 
             //getSharedPreferences("PREFERENCE_dash", MODE_PRIVATE).edit().putBoolean("ifFirstRun_dash", false).apply();
 

@@ -162,6 +162,7 @@ public class OTP_Register extends AppCompatActivity {
                     input_otp.setVisibility(View.VISIBLE);
                     reg_migrant.setVisibility(View.VISIBLE);
                     reg_local.setVisibility(View.VISIBLE);
+                    findViewById(R.id.ll1_otp_reg).setVisibility(View.GONE);
 
                     Toast.makeText(getApplicationContext(),"Authentication successful", Toast.LENGTH_SHORT).show();
                 }

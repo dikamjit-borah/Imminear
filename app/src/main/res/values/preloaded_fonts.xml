@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/chelsea_market</item>
+        <item>@font/denk_one</item>
+        <item>@font/fredoka_one</item>
+        <item>@font/jacques_francois</item>
+        <item>@font/jacques_francois_shadow</item>
+    </array>
+</resources>

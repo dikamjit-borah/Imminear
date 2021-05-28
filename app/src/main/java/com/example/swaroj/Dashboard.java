@@ -209,7 +209,7 @@ public class Dashboard extends AppCompatActivity {
                                     if(task.isSuccessful())
                                     {
 
-                                        Toast.makeText(getApplicationContext(), "Location updated", Toast.LENGTH_SHORT).show();
+                                      //  Toast.makeText(getApplicationContext(), "Location updated", Toast.LENGTH_SHORT).show();
                                         // startActivity(new Intent(getApplicationContext(), Dashboard.class));
                                         //finish();
                                     }
@@ -289,68 +289,10 @@ public class Dashboard extends AppCompatActivity {
             }
         });
 
-        isVulnerable();
+
     }
 
-    private void isVulnerable() {
 
-        String[] questions_array = new String[]{
-                "Cough, Fever, Difficulty in breathing",
-                "Travelled anywhere recently internationally in the last 14 days",
-                "Interacted with someone tested COVID-19 positive",
-                "are a healthcare worker"
-        };
-        final List<String> questions = Arrays.asList(questions_array);
-        final boolean checked[] = new boolean[]{false, false, false, false, false};
-        final List<Integer> itemsSelected = new ArrayList<>();
-
-        final AlertDialog.Builder builder = new AlertDialog.Builder(Dashboard.this);
-        builder.setMultiChoiceItems(questions_array, checked, new DialogInterface.OnMultiChoiceClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                checked[which] = isChecked;
-                String current_item = questions.get(which);
-                count++;
-
-            }
-        });
-        builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (count < 2) {
-                    AlertDialog.Builder builder1 = new AlertDialog.Builder(Dashboard.this);
-                    View builder1_view = getLayoutInflater().inflate(R.layout.custom_dialog2, null);
-                    builder1.setView(builder1_view);
-                    builder1.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    });
-                    builder1.create().show();
-                    Toast.makeText(getApplicationContext(), "Your infection risk is low. Stay at home", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    AlertDialog.Builder builder2 = new AlertDialog.Builder(Dashboard.this);
-                    View builder2_view = getLayoutInflater().inflate(R.layout.custom_dialog1, null);
-                    builder2.setView(builder2_view);
-                    builder2.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            //add to migrant list
-                        }
-                    });
-                    builder2.create().show();
-                    Toast.makeText(getApplicationContext(), "TEST IMMEDIATELY", Toast.LENGTH_SHORT).show();
-
-                }
-
-            }
-        });
-        builder.setTitle("Which of the following is/are true?");
-        builder.create().show();
-    }
 
     private void is_near_me() {
 

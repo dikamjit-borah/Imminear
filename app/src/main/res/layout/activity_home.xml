@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+ android:theme="@style/AppTheme"
     tools:context=".Home">
 
 
@@ -14,10 +15,18 @@
         android:orientation="vertical"
         android:layout_margin="24dp">
 
-        <ImageView
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            app:srcCompat="@drawable/swaroj_logo" />
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/jacques_francois_shadow"
+            android:text="@string/app_name"
+            android:textAlignment="center"
+
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="66sp"
+            android:textStyle="bold">
+
+        </TextView>
 
         <Button
             android:id="@+id/button_login_home"
@@ -27,11 +36,10 @@
             android:background="@drawable/custom_button_1"
             android:elevation="12dp"
 
-            android:fontFamily="sans-serif-black"
+
             android:text="@string/log_in"
             android:textColor="#ffffff"
-            android:textSize="22sp"
-            />
+            android:textSize="22sp" />
 
         <Button
             android:id="@+id/button_reg__home"
@@ -41,7 +49,7 @@
             android:background="@drawable/custom_button_1_outline"
             android:elevation="12dp"
 
-            android:fontFamily="sans-serif-black"
+
             android:text="@string/register"
             android:textColor="#f44336"
             android:textSize="22sp" />
